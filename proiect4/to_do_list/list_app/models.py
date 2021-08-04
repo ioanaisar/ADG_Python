@@ -1,10 +1,19 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 # Create your models here.
+
+
+class User(AbstractUser, models.Model):
+    friends = models.ManyToManyField("User", blank=True)
+
+class FriendRequest(models.Model):
+    from_user = models.ForeignKey(User, related_name='from_user', on_delete=models.CASCADE)
+    to_user = models.ForeignKey(User, related_name='to_user', on_delete=models.CASCADE)
+
 
 class Category(models.Model):
     title = models.CharField(max_length=255, verbose_name="Title", default=None)
-
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     class Meta:
         verbose_name = "Category"
         verbose_name_plural = "Categories"

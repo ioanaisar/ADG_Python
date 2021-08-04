@@ -1,0 +1,13 @@
+<table>
+    <tr>
+        <th>
+            Items
+        </th>
+    </tr>
+    {% for task in user.friends.all %}
+    <tr>
+        <td>{{task}}</td>
+    {% empty %}
+    <h3>No items in list</h3>
+    {% endfor %}
+</table>

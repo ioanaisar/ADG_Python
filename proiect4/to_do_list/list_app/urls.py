@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.urls import path
-from .views import List, TaskDetail, add_Task, add_List, Update, CategoryView, UpdateList, DeleteTask, Login, Register, ViewFinishedTasks, ListAll, ListDetail, DeleteList, add_Category
+from .views import List, TaskDetail, add_Task, add_List, Update, CategoryView, UpdateList, DeleteTask, Login, Register, \
+    ViewFinishedTasks, ListAll, ListDetail, DeleteList, add_Category, send_request, accept_request, SeeRequests, \
+    SendRequests, FriendsView
 from django.contrib.auth.views import LogoutView
 
 
@@ -8,6 +10,11 @@ urlpatterns = [
    # path('', List, name='tasks')
     #path('',List.as_view(), name='tasks')
     #path('', List.as_view(), name='view_all'),
+    path('send_request/<int:userID>/',send_request, name = 'send-request'),
+    path('accept_request/<int:requestID>/',accept_request, name = 'accept-request'),
+    path('send_requests/', SendRequests.as_view(), name='choose_requests'),
+    path('see_requests/', SeeRequests.as_view(), name='see_requests'),
+    path('see_friends/', FriendsView.as_view(), name='see_friends'),
     path('', List.as_view(), name='view_all'),
     path('lists/', ListAll.as_view(), name='lists'),
     path('categories/', CategoryView.as_view(), name='categories'),
