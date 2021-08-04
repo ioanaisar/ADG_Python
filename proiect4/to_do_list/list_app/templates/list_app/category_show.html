@@ -1,0 +1,14 @@
+{% for category in categories %}
+    <h1>{{ category.title }}</h1>
+
+    {% for list in category.related_lists.all %}
+
+        {{list.list_title}}
+        <a href="{% url 'list' list.id %}"> View </a>
+        <a href="{% url 'list-update' list.id %}"> Modify </a>
+       <td> <a href="{% url 'delete-list' list.id %}"> Delete </a></td>
+{% empty %}
+    <h3>No items in list</h3>
+    {% endfor %}
+
+{% endfor %}

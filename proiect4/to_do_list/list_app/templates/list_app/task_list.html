@@ -1,0 +1,53 @@
+<!-- This is a comment -->
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li {% if message.tags %} class="{{message.tags}}" {% endif %}} > {{ message}}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{% if request.user.is_authenticated %}
+    <p>{{request.user}}</p>
+    <a href='logout/'>Logout</a>
+{% else %}
+    <a href='login/'>Login</a>
+{% endif %}
+
+
+<h1>My list</h1>
+
+
+<table>
+    <tr>
+        <th>
+            Items
+        </th>
+    </tr>
+    {% for task in tasks %}
+    <tr>
+        <td>{{task.title}}</td>
+        <td><a href="{% url 'task' task.id %}"> View </a></td>
+        <td><a href="{% url 'update-task' task.id %}"> Modify task </a></td>
+        <td><a href="{% url 'delete-task' task.id %}"> Delete task </a></td>
+    </tr>
+    {% empty %}
+    <h3>No items in list</h3>
+    {% endfor %}
+</table>
+
+<form method="GET">
+    <input type="text" name='search-area' value="{{wanted_input}}">
+    <input type="submit" value='Search'>
+</form>
+
+ <p><td><a href="{% url 'finished-tasks' %}"> See finished tasks </a></td></p>
+
+ <p><td><a href="{% url 'task-create' %}"> Create-task </a></td></p>
+
+ <p><td><a href="{% url 'list-create' %}"> Create-list </a></td></p>
+
+ <p><td><a href="{% url 'category-create' %}"> Create-category </a></td></p>
+
+ <p><td><a href="{% url 'lists' %}"> See lists </a></td></p>
+<p><td><a href="{% url 'categories' %}"> See categories </a></td></p>

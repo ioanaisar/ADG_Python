@@ -1,0 +1,21 @@
+<!-- This is a comment -->
+
+<table>
+    <tr>
+        <th>
+            Items
+        </th>
+    </tr>
+    {% for task in lists %}
+    <tr>
+        <td>{{task.list_title}}</td>
+<td>  List status: {{task.list_state}}</td>
+
+        <td><a href="{% url 'list' task.id %}"> View </a></td>
+        <td><a href="{% url 'list-update' task.id %}"> Modify task </a></td>
+        <td><a href="{% url 'delete-list' task.id %}"> Delete list </a></td>
+    </tr>
+    {% empty %}
+    <h3>No items in list</h3>
+    {% endfor %}
+</table>

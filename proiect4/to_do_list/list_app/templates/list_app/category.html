@@ -1,0 +1,9 @@
+<h2>Add Category</h2>
+    <form method="post" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <input type="submit" value="Submit" />
+    </form>
+
+<td><a href="{% url 'view_all' %}"> Go back </a></td>
