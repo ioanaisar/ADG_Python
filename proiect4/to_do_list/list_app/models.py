@@ -1,7 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-# Create your models here.
-
 
 class User(AbstractUser, models.Model):
     friends = models.ManyToManyField("User", blank=True)
@@ -27,7 +25,6 @@ class Task(models.Model):
     # se sterge utilizatorul se va sterge si lista, poate fi nula
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank = True)
     title = models.CharField(max_length=300, null=False, blank=True)
-    # a box to write in a message
     resume = models.TextField(null=True, blank = True)
     status = models.BooleanField(default=False)
     createTime = models.DateTimeField(auto_now_add=True)
@@ -46,9 +43,8 @@ class ToDoList(models.Model):
     list_title = models.CharField(max_length=300, null=False, blank=True)
     list_state = models.CharField(max_length=100, null=False, blank=True)
     all_tasks = models.ManyToManyField(Task)
-    #all_tasks = Task.objects.filter(main_list=list_title)
+    # all_tasks = Task.objects.filter(main_list=list_title)
     list_status = models.BooleanField(default=False)
-
 
     def __str__(self):
         return self.list_title

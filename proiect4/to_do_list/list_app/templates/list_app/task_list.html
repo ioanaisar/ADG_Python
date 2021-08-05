@@ -8,15 +8,14 @@
 {% endif %}
 
 {% if request.user.is_authenticated %}
-    <p>{{request.user}}</p>
+    <p>Current user: {{request.user}}</p>
     <a href='logout/'>Logout</a>
 {% else %}
     <a href='login/'>Login</a>
 {% endif %}
 
 
-<h1>My list</h1>
-
+<h1>My tasks</h1>
 
 <table>
     <tr>
@@ -50,4 +49,11 @@
  <p><td><a href="{% url 'category-create' %}"> Create-category </a></td></p>
 
  <p><td><a href="{% url 'lists' %}"> See lists </a></td></p>
+
 <p><td><a href="{% url 'categories' %}"> See categories </a></td></p>
+
+<p><td><a href="{% url 'see_requests' %}"> See received requests </a></td></p>
+
+<p><td><a href="{% url 'choose_requests' %}"> Send requests </a></td></p>
+
+<p><td><a href="{% url 'see_friends' %}"> See your friends </a></td></p>

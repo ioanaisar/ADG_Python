@@ -7,9 +7,6 @@ from django.contrib.auth.views import LogoutView
 
 
 urlpatterns = [
-   # path('', List, name='tasks')
-    #path('',List.as_view(), name='tasks')
-    #path('', List.as_view(), name='view_all'),
     path('send_request/<int:userID>/',send_request, name = 'send-request'),
     path('accept_request/<int:requestID>/',accept_request, name = 'accept-request'),
     path('send_requests/', SendRequests.as_view(), name='choose_requests'),
