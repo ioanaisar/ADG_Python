@@ -1,3 +1,7 @@
+{% extends 'list_app/main.html' %}
+
+{% block content %}
+
 <h2>Add task</h2>
     <form method="post" action="" enctype="multipart/form-data">
         {% csrf_token %}
@@ -6,3 +10,6 @@
     </form>
 
 <td><a href="{% url 'view_all' %}"> Go back </a></td>
+
+
+{% endblock content %}

@@ -33,6 +33,18 @@ def accept_request(request, requestID):
         return HttpResponse('friend request was not accepted')
 
 
+class SendRequests(LoginRequiredMixin, ListView):
+    model = User
+    context_object_name = 'all_users'
+    template_name = 'list_app/choose_request.html'
+
+
+class SeeRequests(LoginRequiredMixin, ListView):
+    model = FriendRequest
+    context_object_name = 'all_users'
+    template_name = 'list_app/receive_request.html'
+
+
 class CategoryView(LoginRequiredMixin, ListView):
     model = Category
     context_object_name = 'categories'
@@ -53,18 +65,6 @@ class FriendsView(LoginRequiredMixin, ListView):
         all_lists = super().get_context_data(**kwargs)
         all_lists['user']=self.request.user
         return all_lists
-
-
-class SendRequests(LoginRequiredMixin, ListView):
-    model = User
-    context_object_name = 'all_users'
-    template_name = 'list_app/choose_request.html'
-
-
-class SeeRequests(LoginRequiredMixin, ListView):
-    model = FriendRequest
-    context_object_name = 'all_users'
-    template_name = 'list_app/receive_request.html'
 
 
 class ListAll(LoginRequiredMixin, ListView):
@@ -89,7 +89,7 @@ class ListAll(LoginRequiredMixin, ListView):
         return all_lists
 
 
-class List(LoginRequiredMixin, ListView):
+class SeeLists(LoginRequiredMixin, ListView):
     model = Task
     context_object_name = 'tasks'
 
@@ -140,9 +140,6 @@ class AddTask(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     success_message = "Task successfuly created!"
 
     def get_form_kwargs(self):
-        """ Passes the request object to the form class.
-         This is necessary to only display members that belong to a given user"""
-
         kwargs = super(AddTask, self).get_form_kwargs()
         kwargs['request'] = self.request
         return kwargs
@@ -156,9 +153,6 @@ class AddList(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     success_message = "List successfuly created!"
 
     def get_form_kwargs(self):
-        """ Passes the request object to the form class.
-         This is necessary to only display members that belong to a given user"""
-
         kwargs = super(AddList, self).get_form_kwargs()
         kwargs['request'] = self.request
         return kwargs
@@ -172,9 +166,6 @@ class AddCategory(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     success_message = "Category successfuly created!"
 
     def get_form_kwargs(self):
-        """ Passes the request object to the form class.
-         This is necessary to only display members that belong to a given user"""
-
         kwargs = super(AddCategory, self).get_form_kwargs()
         kwargs['request'] = self.request
         return kwargs
@@ -188,9 +179,6 @@ class Update(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
     success_message = "Update successfuly!"
 
     def get_form_kwargs(self):
-        """ Passes the request object to the form class.
-         This is necessary to only display members that belong to a given user"""
-
         kwargs = super(Update, self).get_form_kwargs()
         kwargs['request'] = self.request
         return kwargs
@@ -204,22 +192,19 @@ class UpdateList(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     success_message = "Update successfuly!"
 
     def get_form_kwargs(self):
-        """ Passes the request object to the form class.
-         This is necessary to only display members that belong to a given user"""
-
         kwargs = super(UpdateList, self).get_form_kwargs()
         kwargs['request'] = self.request
         return kwargs
 
 
-class DeleteTask(LoginRequiredMixin,SuccessMessageMixin, DeleteView):
+class DeleteTask(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Task
     context_object_name = 'task'
     success_url = reverse_lazy('view_all')
     success_message = "Task deleted successfuly!"
 
 
-class DeleteList(LoginRequiredMixin,SuccessMessageMixin, DeleteView):
+class DeleteList(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = ToDoList
     context_object_name = 'list'
     success_url = reverse_lazy('view_all')

@@ -1,4 +1,7 @@
 <!-- This is a comment -->
+{% extends 'list_app/main.html' %}
+
+{% block content %}
 
 <table>
     <tr>
@@ -9,7 +12,7 @@
     {% for task in lists %}
     <tr>
         <td>{{task.list_title}}</td>
-<td>  List status: {{task.list_state}}</td>
+<td>  SeeLists status: {{task.list_state}}</td>
 
         <td><a href="{% url 'list' task.id %}"> View </a></td>
         <td><a href="{% url 'list-update' task.id %}"> Modify </a></td>
@@ -21,3 +24,5 @@
 </table>
 
 <td><a href="{% url 'view_all' %}"> Go back </a></td>
+
+{% endblock content %}
