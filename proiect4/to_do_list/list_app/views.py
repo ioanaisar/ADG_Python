@@ -1,11 +1,10 @@
-from django.shortcuts import render, Http404, redirect, reverse
+from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponse
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 from .models import Task, ToDoList, Category, User, FriendRequest
 from .forms import AddTaskForm, AddListForm, AddCategoryForm,  CustomUserCreationForm
-from django.contrib import messages
 from django.views.generic.edit import UpdateView, DeleteView, FormView
 from django.urls import reverse_lazy
 from django.contrib.auth import login
@@ -34,7 +33,7 @@ def accept_request(request, requestID):
         return HttpResponse('friend request was not accepted')
 
 
-class CategoryView(ListView):
+class CategoryView(LoginRequiredMixin, ListView):
     model = Category
     context_object_name = 'categories'
     template_name = 'list_app/category_show.html'
@@ -45,7 +44,7 @@ class CategoryView(ListView):
         return all_lists
 
 
-class FriendsView(ListView):
+class FriendsView(LoginRequiredMixin, ListView):
     model = User
     context_object_name = 'user'
     template_name = 'list_app/friends.html'
@@ -76,7 +75,6 @@ class ListAll(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         all_lists = super().get_context_data(**kwargs)
         all_lists['lists'] = all_lists['lists'].filter(user_list=self.request.user)
-        all_lists['count'] = all_lists['lists'].filter(list_status=False).count()
 
         new_list = []
         for list1 in all_lists['lists']:
@@ -134,71 +132,76 @@ class ListDetail(LoginRequiredMixin, DetailView):
     template_name = 'list_app/list_template.html'
 
 
-def add_Task(request):
-    if request.method == 'GET':
-        form = AddTaskForm()
-
-        return render(request, 'list_app/task_form.html', {
-            'form': form,
-        })
-
-    if request.method == 'POST':
-        form = AddTaskForm(request.POST, request.FILES)
-
-        if form.is_valid():
-            form.save()
-
-            messages.success(request, 'Product was successfully added!')
-
-            data = Task.objects.all()
-            return redirect(reverse('view_all'))
-        return render(request, 'list_app/task_form.html', {
-            'form': form,
-        })
-    raise Http404('Method not allowed!')
-
-
-class add_List(CreateView):
-    model = ToDoList
-    form_class = AddListForm
-    template_name = 'list_app/list_form.html'
+class AddTask(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    model = Task
+    form_class = AddTaskForm
+    template_name = 'list_app/task_form.html'
     success_url = reverse_lazy('view_all')
+    success_message = "Task successfuly created!"
 
     def get_form_kwargs(self):
         """ Passes the request object to the form class.
          This is necessary to only display members that belong to a given user"""
 
-        kwargs = super(add_List, self).get_form_kwargs()
+        kwargs = super(AddTask, self).get_form_kwargs()
         kwargs['request'] = self.request
         return kwargs
 
 
-class add_Category(CreateView):
+class AddList(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    model = ToDoList
+    form_class = AddListForm
+    template_name = 'list_app/list_form.html'
+    success_url = reverse_lazy('view_all')
+    success_message = "List successfuly created!"
+
+    def get_form_kwargs(self):
+        """ Passes the request object to the form class.
+         This is necessary to only display members that belong to a given user"""
+
+        kwargs = super(AddList, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
+
+class AddCategory(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Category
     form_class = AddCategoryForm
     template_name = 'list_app/category.html'
     success_url = reverse_lazy('view_all')
+    success_message = "Category successfuly created!"
 
     def get_form_kwargs(self):
         """ Passes the request object to the form class.
          This is necessary to only display members that belong to a given user"""
 
-        kwargs = super(add_Category, self).get_form_kwargs()
+        kwargs = super(AddCategory, self).get_form_kwargs()
         kwargs['request'] = self.request
         return kwargs
 
 
-class Update(LoginRequiredMixin, UpdateView):
+class Update(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
     model = Task
-    fields = '__all__'
+    form_class = AddTaskForm
+    template_name = 'list_app/task_form.html'
     success_url = reverse_lazy('view_all')
+    success_message = "Update successfuly!"
+
+    def get_form_kwargs(self):
+        """ Passes the request object to the form class.
+         This is necessary to only display members that belong to a given user"""
+
+        kwargs = super(Update, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
 
 
-class UpdateList(LoginRequiredMixin, UpdateView):
+class UpdateList(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = ToDoList
     form_class = AddListForm
     template_name = 'list_app/list_form.html'
     success_url = reverse_lazy('view_all')
+    success_message = "Update successfuly!"
 
     def get_form_kwargs(self):
         """ Passes the request object to the form class.
@@ -209,17 +212,19 @@ class UpdateList(LoginRequiredMixin, UpdateView):
         return kwargs
 
 
-class DeleteTask(LoginRequiredMixin, DeleteView):
+class DeleteTask(LoginRequiredMixin,SuccessMessageMixin, DeleteView):
     model = Task
     context_object_name = 'task'
     success_url = reverse_lazy('view_all')
+    success_message = "Task deleted successfuly!"
 
 
-class DeleteList(LoginRequiredMixin, DeleteView):
+class DeleteList(LoginRequiredMixin,SuccessMessageMixin, DeleteView):
     model = ToDoList
     context_object_name = 'list'
     success_url = reverse_lazy('view_all')
     template_name = 'list_app/list_delete.html'
+    success_message = "List deleted successfuly!"
 
 
 class Login(LoginView):

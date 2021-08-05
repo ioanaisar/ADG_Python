@@ -1,7 +1,7 @@
 <table>
     <tr>
         <th>
-            Items
+            My friends:
         </th>
     </tr>
     {% for task in user.friends.all %}
@@ -11,3 +11,5 @@
     <h3>No items in list</h3>
     {% endfor %}
 </table>
+
+<td><a href="{% url 'view_all' %}"> Go back </a></td>

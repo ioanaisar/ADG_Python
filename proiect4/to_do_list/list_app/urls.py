@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
-from .views import List, TaskDetail, add_Task, add_List, Update, CategoryView, UpdateList, DeleteTask, Login, Register, \
-    ViewFinishedTasks, ListAll, ListDetail, DeleteList, add_Category, send_request, accept_request, SeeRequests, \
+from .views import List, TaskDetail, AddTask, AddList, Update, CategoryView, UpdateList, DeleteTask, Login, Register, \
+    ViewFinishedTasks, ListAll, ListDetail, DeleteList, AddCategory, send_request, accept_request, SeeRequests, \
     SendRequests, FriendsView
 from django.contrib.auth.views import LogoutView
 
@@ -17,9 +17,9 @@ urlpatterns = [
     path('categories/', CategoryView.as_view(), name='categories'),
     path('task/<int:pk>/', TaskDetail.as_view(), name = 'task'),
     path('list/<int:pk>/', ListDetail.as_view(), name = 'list'),
-    path('task-create/', add_Task, name = 'task-create'),
-    path('list-create/', add_List.as_view(), name = 'list-create'),
-    path('category-create/', add_Category.as_view(), name = 'category-create'),
+    path('task-create/', AddTask.as_view(), name ='task-create'),
+    path('list-create/', AddList.as_view(), name ='list-create'),
+    path('category-create/', AddCategory.as_view(), name ='category-create'),
     path('task-update/<int:pk>/', Update.as_view(), name = 'update-task'),
     path('list-update/<int:pk>/', UpdateList.as_view(), name = 'list-update'),
     path('task-delete/<int:pk>/', DeleteTask.as_view(), name = 'delete-task'),

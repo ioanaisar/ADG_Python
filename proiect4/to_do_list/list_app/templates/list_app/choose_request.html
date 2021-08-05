@@ -1,14 +1,18 @@
 <table>
     <tr>
         <th>
-            Items
+            Users to send request:
         </th>
     </tr>
-    {% for task in all_users %}
+    {% for user in all_users %}
+    {% if user not in request.user.friends.all and user != request.user %}
     <tr>
-        <td>{{task}}</td>
-     <td> <a href="{% url 'send-request' task.id %}"> Send </a> </td>
+        <td>{{user}}</td>
+     <td> <a href="{% url 'send-request' user.id %}"> Send </a> </td>
+        {% endif %}
     {% empty %}
     <h3>No items in list</h3>
     {% endfor %}
 </table>
+
+<td><a href="{% url 'view_all' %}"> Go back </a></td>

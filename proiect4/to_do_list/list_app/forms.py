@@ -17,7 +17,9 @@ class AddCategoryForm(forms.ModelForm):
 
         self.request = kwargs.pop('request')
         super(AddCategoryForm, self).__init__(*args, **kwargs)
-        self.user = self.request.user
+        custom_id = [rec.id for rec in self.request.user.friends.all()]
+        custom_id.append(self.request.user.id)
+        self.fields['user'].queryset = User.objects.filter(id__in=custom_id)
 
     class Meta:
         model = Category
@@ -26,9 +28,19 @@ class AddCategoryForm(forms.ModelForm):
 
 
 class AddTaskForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        """ Grants access to the request object so that only members of the current user
+        are given as options"""
+
+        self.request = kwargs.pop('request')
+        super(AddTaskForm, self).__init__(*args, **kwargs)
+        custom_id = [rec.id for rec in self.request.user.friends.all()]
+        custom_id.append(self.request.user.id)
+        self.fields['user'].queryset = User.objects.filter(id__in=custom_id)
+
     class Meta:
         model = Task
-        fields = ['title', 'resume', 'status', 'main_list', 'user']
+        fields = ['title', 'resume', 'status', 'user']
         exclude = []
 
 
@@ -45,17 +57,16 @@ class AddListForm(forms.ModelForm):
         custom_id = [rec.id for rec in self.request.user.friends.all()]
         custom_id.append(self.request.user.id)
         self.fields['user_list'].queryset = User.objects.filter(id__in=custom_id)
-
+        self.fields['category'].queryset = Category.objects.filter(user=self.request.user)
         # self.fields['user_list'].queryset = self.request.user.friends.all()
 
     class Meta:
         model = ToDoList
-        fields = ['list_title', 'list_status', 'user_list', 'all_tasks', 'list_state', 'category']
+        fields = ['list_title', 'list_state', 'user_list', 'all_tasks', 'category']
 
     list_title = forms.CharField()
-    list_status = forms.BooleanField
     list_state = "Not done"
     all_tasks = forms.ModelMultipleChoiceField(
-        queryset=Task.objects.all(),
+        queryset=Task.objects.all(), required=False,
         widget=forms.CheckboxSelectMultiple
     )

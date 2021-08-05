@@ -1,3 +1,4 @@
+
 {% for category in categories %}
     <h1>{{ category.title }}</h1>
 
@@ -7,8 +8,11 @@
         <a href="{% url 'list' list.id %}"> View </a>
         <a href="{% url 'list-update' list.id %}"> Modify </a>
        <td> <a href="{% url 'delete-list' list.id %}"> Delete </a></td>
-{% empty %}
+    {% empty %}
     <h3>No items in list</h3>
     {% endfor %}
-
+  {% empty %}
+    <h3>No items in list</h3>
 {% endfor %}
+
+<td><a href="{% url 'view_all' %}"> Go back </a></td>
