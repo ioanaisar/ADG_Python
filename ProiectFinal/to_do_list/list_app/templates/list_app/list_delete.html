@@ -1,0 +1,13 @@
+{% extends 'list_app/main.html' %}
+
+{% block content %}
+
+<a href="{% url 'view_all' %}"> </a>
+
+    <form method="post" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p> Do you want to delete this list? "{{list}}"</p>
+        <input type="submit" value="Delete" />
+    </form>
+
+{% endblock content %}

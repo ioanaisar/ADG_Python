@@ -1,0 +1,21 @@
+{% extends 'list_app/main.html' %}
+
+{% block content %}
+
+
+<h2>Add list</h2>
+    <form method="post" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <!--{% for product in tasks.all %}
+  <label  for="ts1">{{product}}</label>
+  <input type="checkbox" name="products" value="{{ product.pk }}" />
+{% endfor %}-->
+
+        <input type="submit" value="Submit" />
+    </form>
+
+<td><a href="{% url 'view_all' %}"> Go back </a></td>
+
+{% endblock content %}

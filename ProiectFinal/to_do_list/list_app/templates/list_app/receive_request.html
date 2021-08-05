@@ -1,0 +1,23 @@
+{% extends 'list_app/main.html' %}
+
+{% block content %}
+
+<table>
+    <tr>
+        <th>
+            Items
+        </th>
+    </tr>
+    {% for task in all_users %}
+    <tr>
+        <td> Request from: {{task.from_user}}</td>
+     <td> <a href="{% url 'accept-request' task.id %}"> Accept </a> </td>
+    {% empty %}
+    <h3>No items in list</h3>
+    {% endfor %}
+</table>
+
+<td><a href="{% url 'view_all' %}"> Go back </a></td>
+
+
+{% endblock content %}

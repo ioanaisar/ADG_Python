@@ -1,0 +1,24 @@
+{% extends 'list_app/main.html' %}
+
+{% block content %}
+
+<table>
+    <tr>
+        <th>
+            Users to send request:
+        </th>
+    </tr>
+    {% for user in all_users %}
+    {% if user not in request.user.friends.all and user != request.user %}
+    <tr>
+        <td>{{user}}</td>
+     <td> <a href="{% url 'send-request' user.id %}"> Send </a> </td>
+        {% endif %}
+    {% empty %}
+    <h3>No items in list</h3>
+    {% endfor %}
+</table>
+
+<td><a href="{% url 'view_all' %}"> Go back </a></td>
+
+{% endblock content %}

@@ -1,0 +1,22 @@
+{% extends 'list_app/main.html' %}
+
+{% block content %}
+
+<h1>Name: {{list.list_title}}
+
+    <p> Tasks:
+    {% for task in list.all_tasks.all %}
+    <tr>
+        <td>{{task.title}}</td>
+         <td><a href="{% url 'task' task.id %}"> View </a></td>
+        <td><a href="{% url 'update-task' task.id %}"> Modify </a></td>
+        <td><a href="{% url 'delete-task' task.id %}"> Delete </a></td>
+    </tr>
+    {% empty %}
+    <h3>No items in list</h3>
+    {% endfor %}
+    </p>
+
+</h1>
+
+{% endblock content %}
