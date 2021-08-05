@@ -35,7 +35,7 @@ class Task(models.Model):
         return self.title
 
     class Meta:
-        ordering = ['status']
+        ordering = ['title']
 
 
 class ToDoList(models.Model):

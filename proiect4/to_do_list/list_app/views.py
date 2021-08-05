@@ -137,7 +137,7 @@ class AddTask(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     form_class = AddTaskForm
     template_name = 'list_app/task_form.html'
     success_url = reverse_lazy('view_all')
-    success_message = "Task successfuly created!"
+    success_message = "Task successfully created!"
 
     def get_form_kwargs(self):
         kwargs = super(AddTask, self).get_form_kwargs()
@@ -163,7 +163,7 @@ class AddCategory(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     form_class = AddCategoryForm
     template_name = 'list_app/category.html'
     success_url = reverse_lazy('view_all')
-    success_message = "Category successfuly created!"
+    success_message = "Category successfully created!"
 
     def get_form_kwargs(self):
         kwargs = super(AddCategory, self).get_form_kwargs()
@@ -176,7 +176,7 @@ class Update(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
     form_class = AddTaskForm
     template_name = 'list_app/task_form.html'
     success_url = reverse_lazy('view_all')
-    success_message = "Update successfuly!"
+    success_message = "Update successfully!"
 
     def get_form_kwargs(self):
         kwargs = super(Update, self).get_form_kwargs()
@@ -189,7 +189,7 @@ class UpdateList(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     form_class = AddListForm
     template_name = 'list_app/list_form.html'
     success_url = reverse_lazy('view_all')
-    success_message = "Update successfuly!"
+    success_message = "Update successfully!"
 
     def get_form_kwargs(self):
         kwargs = super(UpdateList, self).get_form_kwargs()
@@ -201,7 +201,7 @@ class DeleteTask(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Task
     context_object_name = 'task'
     success_url = reverse_lazy('view_all')
-    success_message = "Task deleted successfuly!"
+    success_message = "Task deleted successfully!"
 
 
 class DeleteList(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
@@ -209,7 +209,7 @@ class DeleteList(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     context_object_name = 'list'
     success_url = reverse_lazy('view_all')
     template_name = 'list_app/list_delete.html'
-    success_message = "List deleted successfuly!"
+    success_message = "List deleted successfully!"
 
 
 class Login(LoginView):

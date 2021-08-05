@@ -12,9 +12,6 @@ class CustomUserCreationForm(UserCreationForm):
 
 class AddCategoryForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
-        """ Grants access to the request object so that only members of the current user
-        are given as options"""
-
         self.request = kwargs.pop('request')
         super(AddCategoryForm, self).__init__(*args, **kwargs)
         custom_id = [rec.id for rec in self.request.user.friends.all()]
@@ -29,9 +26,6 @@ class AddCategoryForm(forms.ModelForm):
 
 class AddTaskForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
-        """ Grants access to the request object so that only members of the current user
-        are given as options"""
-
         self.request = kwargs.pop('request')
         super(AddTaskForm, self).__init__(*args, **kwargs)
         custom_id = [rec.id for rec in self.request.user.friends.all()]
@@ -46,9 +40,6 @@ class AddTaskForm(forms.ModelForm):
 
 class AddListForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
-        """ Grants access to the request object so that only members of the current user
-        are given as options"""
-
         self.request = kwargs.pop('request')
         super(AddListForm, self).__init__(*args, **kwargs)
         self.fields['all_tasks'].queryset = Task.objects.filter(
